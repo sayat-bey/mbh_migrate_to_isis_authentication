@@ -99,13 +99,13 @@ class PaggXE(CellSiteGateway):
 
 
 def get_argv(arguments):
-    print("\n"
-          "send:.......send-only\n"
-          "key:........key-chain\n"
-          "nosend:.....no-send-only\n"
-          "cfg:........conf\n")
-
-    settings = {"maxth": 20, "send-only": False, "key-chain": False, "no-send-only": False, "conf": False}
+    settings = {
+        "maxth": 20,
+        "send-only": False,
+        "key-chain": False,
+        "no-send-only": False,
+        "conf": False
+    }
     mt_pattern = re.compile(r"mt([0-9]+)")
     for arg in arguments:
         if "mt" in arg:
@@ -120,6 +120,25 @@ def get_argv(arguments):
             settings["no-send-only"] = True
         elif arg == "cfg" or arg == "CFG" or arg == "conf":
             settings["conf"] = True
+
+    if settings["send-only"] is False \
+            and settings["key-chain"] is False \
+            and settings["no-send-only"] is False \
+            and settings["conf"] is False:
+
+        print("\nsettings from file is loaded\n")
+        with open("steps.yaml") as file_input:
+            settings_from_file = yaml.load(file_input, yaml.SafeLoader)
+            current_step = settings_from_file[-1]
+            current_settings = settings_from_file[current_step]
+            settings.update(current_settings)
+
+        with open("steps.yaml", "w") as file_output:
+            if current_step == len(settings_from_file) - 2:
+                settings_from_file[-1] = 0
+            else:
+                settings_from_file[-1] = current_step + 1
+            yaml.dump(settings_from_file, file_output)
 
     print(
           f"max threads:...................{settings['maxth']}\n"

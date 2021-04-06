@@ -1,6 +1,6 @@
 # mbh_isis_authentication
 
-v1 05.04.2021
+v1 (05.04.2021)
 скрипт для миграция на ISIS Hello authentication,
 в три этапа без простоя связи:
 
@@ -19,3 +19,7 @@ arguments:
 - **nosend**:.....no-send-only
 - **cfg**:........conf
 
+
+v1.5 (06.04.2021)
+
+- добавлен автоматический цикл send / cfg -> md5 /cfg -> nosend /cfg
