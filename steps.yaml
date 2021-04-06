@@ -1,7 +1,6 @@
 - send-only: true
 - conf: true
   send-only: true
-- key-chain: true
 - conf: true
   key-chain: true
 - no-send-only: true

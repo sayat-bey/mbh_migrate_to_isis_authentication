@@ -208,7 +208,8 @@ def write_logs(devices, current_time, log_folder, settings):
             config_filename_file.write(f"### {device.hostname} : {device.ip_address} ###\n\n")
             config_filename_file.write("".join(device.configuration_log))
             config_filename_file.write("\n\n")
-        elif device.commands:
+
+        if device.commands:
             commands_filename_file.write(f"### {device.hostname} : {device.ip_address}\n\n")
             commands_filename_file.write("\n".join(device.commands))
             commands_filename_file.write("\n\n\n")
