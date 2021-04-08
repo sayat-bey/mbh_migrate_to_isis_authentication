@@ -433,8 +433,9 @@ def configure(device, settings):
             device.commit()
             print(f"{device.hostname:39}commit")
 
-    if len(device.commands) > 0:
-        print(f"{device.hostname:39}cfg is needed")
+    else:
+        if len(device.commands) > 0:
+            print(f"{device.hostname:39}cfg is needed")
 
 
 #######################################################################################
