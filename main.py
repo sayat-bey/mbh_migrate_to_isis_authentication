@@ -338,8 +338,6 @@ def check_p2p_in_acl(device, log):
             ipv3 = ipv4 - 1
             if not any([str(ipv4) in log_acl, str(ipv3) in log_acl]):
                 print(f"{device.hostname:39}[ERROR] {str(ipv4)} {str(ipv3)} not in acl mgmt")
-            else:
-                print(f"{device.hostname:39}test {str(ipv4)} {str(ipv3)} in acl mgmt")
 
 
 def phase1_send_only(device):
