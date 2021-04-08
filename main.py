@@ -323,14 +323,13 @@ def define_isis_interface(device):
                     device.isis_interface.append(match[1])
 
         if device.os_type == "cisco_ios":
-            check_p2p_in_acl(log)
+            check_p2p_in_acl(device, log)
 
     else:
         print(f"{device.hostname:39}[ERROR] show isis neighbor - empty")
 
 
-def check_p2p_in_acl(log):
-    print(f"{device.hostname:39}test check_p2p_in_acl")
+def check_p2p_in_acl(device, log):
     log_acl = device.ssh_conn.send_command("show ip access-lists MGMT")
     for line in log.splitlines():
         match = re.search(r".*L2 +\S+\d+ +(10\.238\.\d+\.\d+) +UP", line)
