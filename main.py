@@ -2,6 +2,7 @@ import yaml
 import time
 import queue
 import re
+import ipaddress
 from threading import Thread
 from pprint import pformat
 from getpass import getpass
@@ -320,9 +321,26 @@ def define_isis_interface(device):
                 match = re.search(r"\S+ +(\S+) +\*PtoP\* +Up +\d+ +L2 +Capable", line)
                 if match:
                     device.isis_interface.append(match[1])
-                
+
+        if device.os_type == "cisco_ios":
+            check_p2p_in_acl(log)
+
     else:
         print(f"{device.hostname:39}[ERROR] show isis neighbor - empty")
+
+
+def check_p2p_in_acl(log):
+    print(f"{device.hostname:39}test check_p2p_in_acl")
+    log_acl = device.ssh_conn.send_command("show ip access-lists MGMT")
+    for line in log.splitlines():
+        match = re.search(r".*L2 +\S+\d+ +(10\.238\.\d+\.\d+) +UP", line)
+        if match:
+            ipv4 = ipaddress.ip_address(match[1])
+            ipv3 = ipv4 - 1
+            if not any([str(ipv4) in log_acl, str(ipv3) in log_acl]):
+                print(f"{device.hostname:39}[ERROR] {str(ipv4)} {str(ipv3)} not in acl mgmt")
+            else:
+                print(f"{device.hostname:39}test {str(ipv4)} {str(ipv3)} in acl mgmt")
 
 
 def phase1_send_only(device):
