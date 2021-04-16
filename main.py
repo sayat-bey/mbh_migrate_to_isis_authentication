@@ -113,14 +113,24 @@ def get_argv(arguments):
             match = re.search(mt_pattern, arg)
             if match and int(match[1]) <= 100:
                 settings["maxth"] = int(match[1])
-        elif arg == "send" or arg == "1":
+        elif arg == "send":
             settings["send-only"] = True
-        elif arg == "key" or arg == "2":
+        elif arg == "key":
             settings["key-chain"] = True
-        elif arg == "nosend" or arg == "3":
+        elif arg == "nosend":
             settings["no-send-only"] = True
-        elif arg == "cfg" or arg == "CFG" or arg == "conf" or arg == "1" or arg == "2" or arg == "3":
+        elif arg == "cfg" or arg == "CFG" or arg == "conf":
+            settings["conf"] = True     
+        elif arg == "1":
+            settings["send-only"] = True
             settings["conf"] = True
+        elif arg == "2":
+            settings["key-chain"] = True
+            settings["conf"] = True    
+        elif arg == "3":
+            settings["no-send-only"] = True
+            settings["conf"] = True   
+            
 
     if settings["send-only"] is False \
             and settings["key-chain"] is False \
