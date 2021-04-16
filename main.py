@@ -217,7 +217,7 @@ def write_logs(devices, current_time, log_folder, settings):
      
     print("\ndevices with cfg needed:\n")
     for device in devices:
-        if device.commands and settings["send-only"]:
+        if device.commands and settings["send-only"] and settings["conf"] is False:
             if device.os_type == "cisco_ios":
                 print(f"{device.hostname} : {device.ip_address}")
             else:
