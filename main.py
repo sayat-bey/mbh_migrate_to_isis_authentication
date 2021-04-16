@@ -113,13 +113,13 @@ def get_argv(arguments):
             match = re.search(mt_pattern, arg)
             if match and int(match[1]) <= 100:
                 settings["maxth"] = int(match[1])
-        elif arg == "send":
+        elif arg == "send" or arg == "1":
             settings["send-only"] = True
-        elif arg == "key":
+        elif arg == "key" or arg == "2":
             settings["key-chain"] = True
-        elif arg == "nosend":
+        elif arg == "nosend" or arg == "3":
             settings["no-send-only"] = True
-        elif arg == "cfg" or arg == "CFG" or arg == "conf":
+        elif arg == "cfg" or arg == "CFG" or arg == "conf" or arg == "1" or arg == "2" or arg == "3":
             settings["conf"] = True
 
     if settings["send-only"] is False \
@@ -214,6 +214,15 @@ def write_logs(devices, current_time, log_folder, settings):
             commands_filename_file.write(f"### {device.hostname} : {device.ip_address}\n\n")
             commands_filename_file.write("\n".join(device.commands))
             commands_filename_file.write("\n\n\n")
+     
+    print("\ndevices with cfg needed:\n")
+    for device in devices:
+        if device.commands and settings["send-only"]:
+            if device.os_type == "cisco_ios":
+                print(f"{device.hostname} : {device.ip_address}")
+            else:
+                print(f"\t{device.hostname} : {device.ip_address}")
+    print()
 
     conn_msg_filename_file.close()
     device_info_filename_file.close()
